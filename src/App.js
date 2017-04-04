@@ -16,6 +16,7 @@ class App extends Component {
       ],
       currentTodo: ''
     }
+    this.handleRemove = this.handleRemove.bind(this);
     this.handleToggle = this.handleToggle.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -32,6 +33,18 @@ class App extends Component {
       ...this.state.todos.slice(index + 1)
     ];
 
+    this.setState((previousState, props) => ({
+      todos: updatedTodos
+    }));
+  }
+
+  handleRemove(id, evt) {
+    evt.preventDefault();
+    const removeIndex = this.state.todos.findIndex(item => item.id === id)
+    const updatedTodos =  [
+      ...this.state.todos.slice(0, removeIndex),
+      ...this.state.todos.slice(removeIndex+1)
+    ];
     this.setState((previousState, props) => ({
       todos: updatedTodos
     }));
@@ -79,7 +92,7 @@ class App extends Component {
           <TodoForm handleInputChange={this.handleInputChange}
                     currentTodo={this.state.currentTodo}
                     handleSubmit={submitHandler} />          
-          <TodoList todos={this.state.todos} handleToggle={this.handleToggle} />
+          <TodoList todos={this.state.todos} handleToggle={this.handleToggle} handleRemove={this.handleRemove} />
         </div>
       </div>
     );
@@ -89,5 +102,4 @@ class App extends Component {
 export default App;
 
 const generateId = () => Math.floor(Math.random()*1000000) 
-
 
