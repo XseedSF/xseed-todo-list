@@ -11,8 +11,15 @@ class App extends Component {
         {id: 2, name: 'Learn Redux', isComplete: true},
         {id: 3, name: 'Learn ReactNative ', isComplete: false},
         {id: 4, name: 'Learn NodeJS', isComplete: false}
-      ]
+      ],
+      currentTodo: ''
     }
+    this.handleInputChange = this.handleInputChange.bind(this);
+  }
+  handleInputChange(event) {
+    this.setState({
+      currentTodo: event.target.value
+    });    
   }
   render() {
     return (
@@ -23,7 +30,7 @@ class App extends Component {
         </div>
         <div className="Todo-App">
           <form>
-            <input type="text" />
+            <input type="text" value={this.state.currentTodo} onChange={this.handleInputChange} />
           </form>
           <div>
             <ul>
