@@ -16,15 +16,33 @@ class App extends Component {
       ],
       currentTodo: ''
     }
+    this.handleToggle = this.handleToggle.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleEmptySubmit = this.handleEmptySubmit.bind(this);
   }
-  handleInputChange(event) {
+
+  handleToggle(id) {
+    const index = this.state.todos.findIndex(item => item.id === id);
+    const todo = this.state.todos[index];
+    const updatedTodo = {...todo, isComplete: !todo.isComplete};
+    const updatedTodos = [
+      ...this.state.todos.slice(0, index),
+      updatedTodo,
+      ...this.state.todos.slice(index + 1)
+    ];
+
+    this.setState((previousState, props) => ({
+      todos: updatedTodos
+    }));
+  }
+
+  handleInputChange(event){
     this.setState({
       currentTodo: event.target.value
     });    
   }
+
   handleSubmit(event) {
     event.preventDefault();
     const newId = generateId();
@@ -40,12 +58,14 @@ class App extends Component {
       errorMessage: ''
     }));
   }
+
   handleEmptySubmit(event) {
     event.preventDefault();
     this.setState({
       errorMessage: 'Please supply a todo name'
     })
   }
+
   render() {
     const submitHandler = this.state.currentTodo ? this.handleSubmit : this.handleEmptySubmit;
     return (
@@ -59,7 +79,7 @@ class App extends Component {
           <TodoForm handleInputChange={this.handleInputChange}
                     currentTodo={this.state.currentTodo}
                     handleSubmit={submitHandler} />          
-          <TodoList todos={this.state.todos} />
+          <TodoList todos={this.state.todos} handleToggle={this.handleToggle} />
         </div>
       </div>
     );
@@ -69,3 +89,5 @@ class App extends Component {
 export default App;
 
 const generateId = () => Math.floor(Math.random()*1000000) 
+
+
