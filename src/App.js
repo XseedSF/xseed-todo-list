@@ -1,19 +1,17 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import {TodoForm} from './components/TodoForm'
+import TodoForm from './components/TodoForm'
 import TodoList from './components/TodoList'
 
 class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      currentTodo: ''
+      
     }
     this.handleRemove = this.handleRemove.bind(this);
     this.handleToggle = this.handleToggle.bind(this);
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
     this.handleEmptySubmit = this.handleEmptySubmit.bind(this);
   }
 
@@ -44,28 +42,6 @@ class App extends Component {
     }));
   }
 
-  handleInputChange(event){
-    this.setState({
-      currentTodo: event.target.value
-    });    
-  }
-
-  handleSubmit(event) {
-    event.preventDefault();
-    const newId = generateId();
-    const newTodo = { id: newId,  name: this.state.currentTodo, isComplete: false };
-    /*//Mutando
-    var updatedTodos = this.state.todos;
-    updatedTodos.push(newTodo);*/
-    const updatedTodos = [...this.state.todos, newTodo];
-
-    this.setState((previousState, props) => ({
-      todos: updatedTodos,
-      currentTodo: '',
-      errorMessage: ''
-    }));
-  }
-
   handleEmptySubmit(event) {
     event.preventDefault();
     this.setState({
@@ -83,10 +59,8 @@ class App extends Component {
         </div>
         <div className="Todo-App">
           {this.state.errorMessage && <span className="error">{this.state.errorMessage}</span>}
-          <TodoForm handleInputChange={this.handleInputChange}
-                    currentTodo={this.state.currentTodo}
-                    handleSubmit={submitHandler} />          
-          <TodoList todos={this.state.todos} handleToggle={this.handleToggle} handleRemove={this.handleRemove} />
+          <TodoForm  />          
+          <TodoList handleToggle={this.handleToggle} handleRemove={this.handleRemove} />
         </div>
       </div>
     );
@@ -95,5 +69,4 @@ class App extends Component {
 
 export default App;
 
-const generateId = () => Math.floor(Math.random()*1000000) 
 
