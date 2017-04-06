@@ -1,0 +1,65 @@
+Vamos a agregar el elemento que escribimos a la lista, sin usar mutaciones
+
+Definimos una nueva funcion HandleSubmit en App.js y la bindeamos en el contructor
+this.handleInputChange = this.handleInputChange.bind(this);
+
+handleSubmit(event) {
+    event.preventDefault();
+    
+}
+
+Se la pasamos por props a TodoForm y en TodoForm la llamamos en el onSubmit
+
+<form onSubmit={props.handleSubmit}>
+
+Ahora la escribimos
+Aux para generar ids: const generateId = () => Math.floor(Math.random()*1000000) 
+
+handleSubmit(event) {
+    event.preventDefault();
+    const newId = generateId();
+    const newTodo = { id: newId,  name: this.state.currentTodo, isComplete: false };
+    /*//Mutando
+    var updatedTodos = this.state.todos;
+    updatedTodos.push(newTodo);*/
+    const updatedTodos = [...this.state.todos, newTodo];
+
+    this.setState((previousState, props) => ({
+      todos: updatedTodos,
+      currentTodo: ''
+    }));
+  }
+
+CONDITIONAL RENDERING
+
+  Vamos a agregar validacion para no poder agregar valores vacios
+  Una tipica es agregar un if en HandleSubmit, pero en realidad sabemos que esta vacio antes de submit y no es la funcion de ese metodo. 
+
+  Agreguemos otra funcion y su binding
+  handleEmptySubmit(event) {
+    event.preventDefault();
+    this.setState({
+      errorMessage: 'Please supply a todo name'
+    })
+  }
+  this.handleEmptySubmit = this.handleEmptySubmit.bind(this);
+
+  En el render mostramos el error y ademas pasamos un handler o el otro
+  render() {
+    const submitHandler = this.state.currentTodo ? this.handleSubmit : this.handleEmptySubmit;
+    return (
+      <div className="App">
+        <div className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+          <h2>React Todos</h2>
+        </div>
+        <div className="Todo-App">
+          {this.state.errorMessage && <span className="error">{this.state.errorMessage}</span>}
+          <TodoForm handleInputChange={this.handleInputChange}
+                    currentTodo={this.state.currentTodo}
+                    handleSubmit={submitHandler} />          
+          <TodoList todos={this.state.todos} />
+        </div>
+      </div>
+    );
+  }

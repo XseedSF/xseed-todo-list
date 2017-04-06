@@ -1,8 +1,30 @@
 import React from 'react';
+import { connect } from 'react-redux'
+import { toogleTodo, removeTodo } from '../reducer.js'
 
-export const TodoItem = (props) => {
-	const handleToggle = () => props.handleToggle(props.id);
-	const handleRemove = (event) => props.handleRemove(props.id, event);
+const mapStateToProps = (state) => {
+  return {
+    
+  };
+}
+
+const mapDispatchToProps = dispatch => {
+  return { 
+    toogleTodo: (id) => {
+        return dispatch(toogleTodo(id));
+    },
+    removeTodo: (id) => {
+      return dispatch(removeTodo(id));
+    }
+  };
+};
+
+const TodoItem = (props) => {
+	const handleToggle = () => props.toogleTodo(props.id);
+	const handleRemove = (event) => {
+		event.preventDefault();
+		props.removeTodo(props.id);
+	};
 	return (
 		<li>
 			<span className="delete-item">
@@ -15,6 +37,12 @@ export const TodoItem = (props) => {
         </li>
 	)
 }
+
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TodoItem); 
 
 TodoItem.propTypes = {
 	name: React.PropTypes.string.isRequired,

@@ -1,0 +1,53 @@
+
+Vamos a separar en components el resto de la app.
+
+TodoList
+
+import React from 'react'
+
+export const TodoList = (props) => {
+	return (
+		<div>
+            <ul>
+              {props.todos.map(todo => 
+                <li key={todo.id}>
+              		<input type="checkbox" defaultChecked={todo.isComplete}/> {todo.name }
+                </li>)}
+              
+            </ul>
+      	</div>
+	)
+}
+
+Ahora vamos a separarlo aun mas, vamos a crear un componente para renderizar un Todo solo
+TodoItem
+import React from 'react';
+
+export const TodoItem = (props) => {
+	return (
+		<li key={props.id}>
+      		<input type="checkbox" defaultChecked={props.isComplete}/> {props.name }
+        </li>
+	)
+}
+
+TodoList
+export const TodoList = (props) => {
+	return (
+		<div>
+            <ul>
+              {props.todos.map(todo => 
+              	<TodoItem id={todo.id} 
+              		name={todo.name}
+              		isComplete={todo.isComplete} /> )}
+              
+            </ul>
+      	</div>
+	)
+}
+
+pero TodoItem vamos a hacerlo mas corto con el spread operator de objects ()
+{props.todos.map(todo => <TodoItem {...todo} /> )}
+
+Tenemos un warning porque el key quedo dentro del TodoItem, pero el map es mas arriba
+{props.todos.map(todo => <TodoItem key={todo.id} {...todo} /> )}

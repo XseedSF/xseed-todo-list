@@ -1,0 +1,57 @@
+Remove Todo
+
+Bind 
+
+HandleRemove
+
+this.handleRemove = this.handleRemove.bind(this);
+
+ handleRemove(id, evt) {
+    evt.preventDefault();
+    const removeIndex = this.state.todos.findIndex(item => item.id === id)
+    const updatedTodos =  [
+      ...this.state.todos.slice(0, removeIndex),
+      ...this.state.todos.slice(removeIndex+1)
+    ];
+    this.setState((previousState, props) => ({
+      todos: updatedTodos
+    }));
+  }
+
+  Lo pasamos por props a TodoList y de TodoList a TodoItem
+
+  En TodoItem agregamos un link con una X
+
+  export const TodoItem = (props) => {
+	const handleToggle = () => props.handleToggle(props.id);
+	const handleRemove = (event) => props.handleRemove(props.id, event);
+	return (
+		<li>
+			<a href="#" onClick={(event) => handleRemove(event)}>X</a>
+      		<input type="checkbox" 
+      			   checked={props.isComplete}
+      			   onChange={handleToggle}
+      			   /> {props.name }
+        </li>
+	)
+}
+
+En CSS
+
+li span.delete-item {
+  visibility: hidden;
+}
+
+span.delete-item a {
+  text-decoration: none;
+  color:red;
+}
+
+li:hover span.delete-item {
+  visibility: visible;
+}
+
+y En todoItem
+<span className="delete-item">
+	<a href="#" onClick={(event) => handleRemove(event)}>X</a>
+</span>

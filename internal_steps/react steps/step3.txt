@@ -1,0 +1,61 @@
+Sincronizar la UI con el State
+
+Agregar el currentTodo, y leer el value en el input
+Al editar el campo no puedo escribir, me falta como modificar el state -> Unidireccional!!
+OnChange
+
+creo una funcion
+handleInputChange(event) {
+    this.setState({
+      currentTodo: event.target.value
+    });    
+  }
+Tengo que bindearla en el constructor, y asignarla en el onChange del input
+
+
+Final
+
+class App extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      todos: [
+        {id: 1, name: 'Learn React', isComplete: false},
+        {id: 2, name: 'Learn Redux', isComplete: true},
+        {id: 3, name: 'Learn ReactNative ', isComplete: false},
+        {id: 4, name: 'Learn NodeJS', isComplete: false}
+      ],
+      currentTodo: ''
+    }
+    this.handleInputChange = this.handleInputChange.bind(this);
+  }
+  handleInputChange(event) {
+    this.setState({
+      currentTodo: event.target.value
+    });    
+  }
+  render() {
+    return (
+      <div className="App">
+        <div className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+          <h2>React Todos</h2>
+        </div>
+        <div className="Todo-App">
+          <form>
+            <input type="text" value={this.state.currentTodo} onChange={this.handleInputChange} />
+          </form>
+          <div>
+            <ul>
+              {this.state.todos.map(todo => 
+                <li key={todo.id}>
+                  <input type="checkbox" defaultChecked={todo.isComplete}/> {todo.name }
+                </li>)}
+              
+            </ul>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
