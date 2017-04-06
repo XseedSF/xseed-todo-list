@@ -1,0 +1,29 @@
+Prop Types apra validar el input que recibe un component
+
+Si otro miembro del equipo quiere reutilizar el componente, es importante que le pase las props necesarias.
+
+TodoForm.propTypes = {
+	currentTodo: React.PropTypes.string.is,
+	handleInputChange: React.PropTypes.func
+}
+
+Probemos pasarle un number y ver el warning
+
+Ahora son opcionales, si agregamos isRequired son obligatorias. Probemos sacar el currentTodo
+
+TodoForm.propTypes = {
+	currentTodo: React.PropTypes.string.isRequired,
+	handleInputChange: React.PropTypes.func.isRequired
+}
+
+Agreguemos mas PropTypes
+
+TodoList.propTypes = {
+	todos: React.PropTypes.array.isRequired
+}
+
+TodoItem.propTypes = {
+	name: React.PropTypes.string.isRequired,
+	isComplete: React.PropTypes.bool,
+	id: React.PropTypes.number.isRequired
+}

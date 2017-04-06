@@ -1,0 +1,33 @@
+Separar en components indepentientes. Input Todo
+
+en src/components vamos a creat TodoForm.js
+
+import React from 'react'
+
+export const TodoForm = () => (
+	<form>
+		<input type="text" value={this.state.currentTodo} onChange={this.handleInputChange} />
+	</form>
+)
+
+importarlo y usarlo en App.js
+
+import {TodoForm} from './components/TodoForm'
+
+<TodoForm />
+
+Probarlo y ver que no renderiza nada, en la consola tira error porque no sabe q es this.state o this.handleChange
+
+Le pasamos por props las cosas
+import React from 'react'
+
+export const TodoForm = (props) => (
+	<form>
+		<input type="text" value={props.currentTodo} onChange={props.handleInputChange} />
+	</form>
+)
+
+<TodoForm handleInputChange={this.handleInputChange}
+                    currentTodo={this.state.currentTodo} />
+
+                    

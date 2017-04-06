@@ -1,0 +1,72 @@
+Vamos a hacer el Toggle de un Todo
+
+En App.js definimos una nueva funcion
+
+this.handleToggle = this.handleToggle.bind(this);
+
+handleToggle(id) {
+    const index = this.state.todos.findIndex(item => item.id === id);
+    const todo = this.state.todos[index];
+    const updatedTodo = {...todo, isComplete: !todo.isComplete};
+    const updatedTodos = [
+      ...this.state.todos.slice(0, index),
+      updateTodo,
+      ...this.state.todos.slice(index + 1)
+    ];
+
+    this.setState((previousState, props) => ({
+      todos: updatedTodos
+    }));
+  }
+
+  Se la pasamos por Props a TodoList, que hace pasamanos y se la pasa a TodoItem
+  Podemos sacar el defaultChecked y poner checked ahora que tenemos el onChange
+
+  export const TodoItem = (props) => {
+	return (
+		<li>
+      		<input type="checkbox" 
+      			   checked={props.isComplete}
+      			   onChange={props.handleToggle}
+      			   /> {props.name }
+        </li>
+	)
+}
+
+Esto tira error porque estamos pasando el evento de onChange a handleToggle en vez de el id
+
+onChange={() => props.handleToggle(props.id)}
+
+o definir la arrow function antes 
+
+export const TodoItem = (props) => {
+	const handleToggle = () => props.handleToggle(props.id);
+	return (
+		<li>
+      		<input type="checkbox" 
+      			   checked={props.isComplete}
+      			   onChange={handleToggle}
+      			   /> {props.name }
+        </li>
+	)
+}
+
+
+
+
+
+
+
+
+const findById = (id, list) => list.find(item => item.id === id)
+
+const toogleTodo = (todo) => ({...todo, isComplete: !todo.isComplete })
+
+const updateTodo = (list, updated) => {
+  const updatedIndex = list.findIndex(item => item.id === updated.id);
+  return [
+    ...list.slice(0, updatedIndex),
+    updated,
+    ...list.slice(updatedIndex + 1)
+  ]
+}

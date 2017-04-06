@@ -36,7 +36,7 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
-//************** PASO 2
+//******************************************************* PASO 2 ****************************//
 
 // definimos el state inicial en redux.js
 const initialState = {
@@ -84,7 +84,7 @@ import TodoList from './components/TodoList'
 //ahora todo renderiza pero obvio no funciona
 
 
-//************* PASO 3
+//******************************************************* PASO 3 ****************************//
 //en reducer.js
 
 
@@ -215,7 +215,9 @@ const TodoForm = (props) => {
 // y Vaciamos el TodoForm en App.js. Podemos borrar el currentTodo del state
 <TodoForm  />  
 
-//*********** PASO 4
+//******************************************************* PASO 4 ****************************//
+
+
 //Vamos a crear en el reducer el codigo para hacer Toogle Todo y Remove TODO
 export const toogleTodo = (id) => {
   return {
@@ -320,6 +322,33 @@ const TodoList = (props) => {
 //app.js
 <TodoForm />          
 <TodoList />
+
+//Funciona todo pero solo nos falta el handle submit empty pero quedara para otra
+//vamos a borrarlo
+
+//app.js
+class App extends Component {
+  constructor(props){
+    super(props);
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <div className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+          <h2>React Todos</h2>
+        </div>
+        <div className="Todo-App">
+          <TodoForm />          
+          <TodoList />
+        </div>
+      </div>
+    );
+  }
+}
+
+export default App;
 
 
 
