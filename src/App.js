@@ -10,36 +10,7 @@ class App extends Component {
     this.state = {
       
     }
-    this.handleRemove = this.handleRemove.bind(this);
-    this.handleToggle = this.handleToggle.bind(this);
     this.handleEmptySubmit = this.handleEmptySubmit.bind(this);
-  }
-
-  handleToggle(id) {
-    const index = this.state.todos.findIndex(item => item.id === id);
-    const todo = this.state.todos[index];
-    const updatedTodo = {...todo, isComplete: !todo.isComplete};
-    const updatedTodos = [
-      ...this.state.todos.slice(0, index),
-      updatedTodo,
-      ...this.state.todos.slice(index + 1)
-    ];
-
-    this.setState((previousState, props) => ({
-      todos: updatedTodos
-    }));
-  }
-
-  handleRemove(id, evt) {
-    evt.preventDefault();
-    const removeIndex = this.state.todos.findIndex(item => item.id === id)
-    const updatedTodos =  [
-      ...this.state.todos.slice(0, removeIndex),
-      ...this.state.todos.slice(removeIndex+1)
-    ];
-    this.setState((previousState, props) => ({
-      todos: updatedTodos
-    }));
   }
 
   handleEmptySubmit(event) {
@@ -59,8 +30,8 @@ class App extends Component {
         </div>
         <div className="Todo-App">
           {this.state.errorMessage && <span className="error">{this.state.errorMessage}</span>}
-          <TodoForm  />          
-          <TodoList handleToggle={this.handleToggle} handleRemove={this.handleRemove} />
+          <TodoForm />          
+          <TodoList />
         </div>
       </div>
     );

@@ -1,6 +1,6 @@
 import React from 'react'
-import {TodoItem} from './TodoItem'
-import { connect } from 'react-redux'
+import TodoItem from './TodoItem'
+import { connect } from 'react-redux';
 
 const mapStateToProps = (state) => {
   return {
@@ -18,10 +18,7 @@ const TodoList = (props) => {
 	return (
 		<div>
       <ul>
-        {props.todos.map(todo => <TodoItem key={todo.id} {...todo} 
-         handleToggle={props.handleToggle}
-         handleRemove={props.handleRemove} /> )}
-
+        {props.todos.map(todo => <TodoItem key={todo.id} {...todo} /> )}
       </ul>
     </div>
 	)

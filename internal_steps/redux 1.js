@@ -216,6 +216,110 @@ const TodoForm = (props) => {
 <TodoForm  />  
 
 //*********** PASO 4
+//Vamos a crear en el reducer el codigo para hacer Toogle Todo y Remove TODO
+export const toogleTodo = (id) => {
+  return {
+    type: types.TOOGLE_TODO,
+    payload: id
+  };
+};
+
+export const removeTodo = (id) => {
+  return {
+    type: types.REMOVE_TODO,
+    payload: id
+  };
+};
+
+if(action.type === types.TOOGLE_TODO) {
+	const index = state.todos.findIndex(item => item.id === action.payload);
+    const todo = state.todos[index];
+    const updatedTodo = {...todo, isComplete: !todo.isComplete};
+    const updatedTodos = [
+      ...state.todos.slice(0, index),
+      updatedTodo,
+      ...state.todos.slice(index + 1)
+    ];
+
+    return {
+		...state,
+		todos: updatedTodos
+	}
+}
+if(action.type === types.REMOVE_TODO) {
+	const removeIndex = state.todos.findIndex(item => item.id === action.payload)
+    const updatedTodos =  [
+      ...state.todos.slice(0, removeIndex),
+      ...state.todos.slice(removeIndex+1)
+    ];
+
+	return {
+		...state,
+		todos: updatedTodos
+	}
+}
+
+//En TODO ITEM vamos a agregar REDUX
+import { connect } from 'react-redux'
+import { toogleTodo, removeTodo } from '../reducer.js'
+
+const mapStateToProps = (state) => {
+  return {
+    
+  };
+}
+
+const mapDispatchToProps = dispatch => {
+  return { 
+    toogleTodo: (id) => {
+        return dispatch(toogleTodo(id));
+    },
+    removeTodo: (id) => {
+      return dispatch(removeTodo(id));
+    }
+  };
+};
+
+const TodoItem = (props) => {
+	const handleToggle = () => props.toogleTodo(props.id);
+	const handleRemove = (event) => {
+		event.preventDefault();
+		props.removeTodo(props.id);
+	};
+	return (
+		<li>
+			<span className="delete-item">
+				<a href="#" onClick={(event) => handleRemove(event)}>X</a>
+			</span>
+      		<input type="checkbox" 
+      			   checked={props.isComplete}
+      			   onChange={handleToggle}
+      			   /> {props.name }
+        </li>
+	)
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TodoItem); 
+
+//TodoList cambiar import de TodoItem
+//y queda asi
+
+const TodoList = (props) => {
+	return (
+		<div>
+      <ul>
+        {props.todos.map(todo => <TodoItem key={todo.id} {...todo} /> )}
+      </ul>
+    </div>
+	)
+}
+
+//app.js
+<TodoForm />          
+<TodoList />
 
 
 
